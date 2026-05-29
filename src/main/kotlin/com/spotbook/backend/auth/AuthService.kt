@@ -1,42 +1,30 @@
 package com.spotbook.backend.auth
 
 import io.ktor.http.HttpStatusCode
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicLong
 
 class AuthService(
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val userRepository: UserRepository
 ) {
-    private val nextId = AtomicLong(1)
-    private val users = ConcurrentHashMap<Long, StoredUser>()
-    private val userIdsByEmail = ConcurrentHashMap<String, Long>()
-
-    @Synchronized
     fun register(request: AuthRequest): AuthResponse {
         val email = normalizeEmail(request.email)
         validatePassword(request.password)
 
-        if (userIdsByEmail.containsKey(email)) {
+        if (userRepository.findByEmail(email) != null) {
             throw AuthException(HttpStatusCode.Conflict, "Email is already registered")
         }
 
-        val user = StoredUser(
-            id = nextId.getAndIncrement(),
+        val user = userRepository.create(
             email = email,
             passwordHash = PasswordHasher.hash(request.password)
         )
-
-        users[user.id] = user
-        userIdsByEmail[email] = user.id
 
         return authResponse(user)
     }
 
     fun login(request: AuthRequest): AuthResponse {
         val email = normalizeEmail(request.email)
-        val userId = userIdsByEmail[email]
-            ?: throw AuthException(HttpStatusCode.Unauthorized, "Wrong email or password")
-        val user = users[userId]
+        val user = userRepository.findByEmail(email)
             ?: throw AuthException(HttpStatusCode.Unauthorized, "Wrong email or password")
 
         if (!PasswordHasher.verify(request.password, user.passwordHash)) {
@@ -47,7 +35,7 @@ class AuthService(
     }
 
     fun findUser(userId: Long): UserResponse? {
-        return users[userId]?.toResponse()
+        return userRepository.findById(userId)?.toResponse()
     }
 
     private fun authResponse(user: StoredUser): AuthResponse {
@@ -75,7 +63,7 @@ class AuthService(
     private fun StoredUser.toResponse(): UserResponse {
         return UserResponse(
             id = id,
-            email = email
+            email = email,
         )
     }
 }
@@ -84,4 +72,3 @@ class AuthException(
     val status: HttpStatusCode,
     override val message: String
 ) : RuntimeException(message)
-

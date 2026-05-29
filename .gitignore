@@ -44,4 +44,5 @@ replay_pid*
 *.db
 *.sqlite
 *.sqlite3
+data/
 uploads/
