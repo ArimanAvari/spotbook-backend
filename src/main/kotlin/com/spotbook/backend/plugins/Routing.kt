@@ -11,9 +11,11 @@ import com.spotbook.backend.sync.syncRoutes
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
+import java.io.File
 import kotlinx.serialization.Serializable
 
 fun Application.configureRouting(
@@ -35,6 +37,8 @@ fun Application.configureRouting(
         get("/health") {
             call.respond(HttpStatusCode.OK, HealthResponse(status = "ok", message = "OK"))
         }
+
+        staticFiles("/uploads", File("uploads"))
 
         authRoutes(authService)
         placeRoutes(placeService)
