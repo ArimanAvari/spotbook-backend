@@ -12,6 +12,7 @@ import com.spotbook.backend.plugins.configureDatabase
 import com.spotbook.backend.plugins.configureRouting
 import com.spotbook.backend.plugins.configureSecurity
 import com.spotbook.backend.plugins.configureSerialization
+import com.spotbook.backend.sync.SyncService
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -34,9 +35,10 @@ fun Application.module() {
     val placeService = PlaceService(placeRepository)
     val groupRepository = GroupRepository(databaseFactory)
     val groupService = GroupService(groupRepository)
+    val syncService = SyncService(databaseFactory)
 
     configureSerialization()
     configureSecurity(jwtService)
     configureDatabase(databaseFactory)
-    configureRouting(authService, placeService, groupService)
+    configureRouting(authService, placeService, groupService, syncService)
 }
