@@ -46,9 +46,33 @@ data/spotbook.db
 - `groups`;
 - `place_cards`.
 
+## Карточки мест
+
+Для всех запросов карточек нужен заголовок:
+
+```text
+Authorization: Bearer <token>
+```
+
+Endpoint-ы:
+
+- `GET /api/places` — список карточек текущего пользователя;
+- `POST /api/places` — создание карточки;
+- `GET /api/places/{id}` — детали карточки;
+- `PUT /api/places/{id}` — обновление карточки;
+- `DELETE /api/places/{id}` — удаление карточки;
+- `PATCH /api/places/{id}/status` — изменение статуса;
+- `POST /api/places/{id}/photo` — загрузка одной фотографии через `multipart/form-data`.
+
+Фотографии сохраняются в папку:
+
+```text
+uploads/place_photos
+```
+
 ## Что будет реализовано дальше
 
-- REST API;
-- хранение фотографий на сервере.
+- группы;
+- импорт и экспорт данных.
 
 Разработка ведётся в отдельной ветке `backend-dev`.

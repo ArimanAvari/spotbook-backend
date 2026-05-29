@@ -4,6 +4,8 @@ import com.spotbook.backend.auth.AuthService
 import com.spotbook.backend.auth.JwtService
 import com.spotbook.backend.auth.UserRepository
 import com.spotbook.backend.database.DatabaseFactory
+import com.spotbook.backend.places.PlaceRepository
+import com.spotbook.backend.places.PlaceService
 import com.spotbook.backend.plugins.configureDatabase
 import com.spotbook.backend.plugins.configureRouting
 import com.spotbook.backend.plugins.configureSecurity
@@ -26,9 +28,11 @@ fun Application.module() {
     val jwtService = JwtService()
     val userRepository = UserRepository(databaseFactory)
     val authService = AuthService(jwtService, userRepository)
+    val placeRepository = PlaceRepository(databaseFactory)
+    val placeService = PlaceService(placeRepository)
 
     configureSerialization()
     configureSecurity(jwtService)
     configureDatabase(databaseFactory)
-    configureRouting(authService)
+    configureRouting(authService, placeService)
 }
