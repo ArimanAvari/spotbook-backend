@@ -192,6 +192,7 @@ class PlaceRepository(
 
     private fun ResultSet.toPlaceRecord(): PlaceRecord {
         val groupId = getLong("group_id")
+        val hasGroupId = !wasNull()
         return PlaceRecord(
             id = getLong("id"),
             userId = getLong("user_id"),
@@ -201,10 +202,9 @@ class PlaceRepository(
             rating = getInt("rating"),
             comment = getString("comment"),
             status = PlaceStatus.valueOf(getString("status")),
-            groupId = if (wasNull()) null else groupId,
+            groupId = if (hasGroupId) groupId else null,
             createdAt = getString("created_at"),
             updatedAt = getString("updated_at")
         )
     }
 }
-

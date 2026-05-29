@@ -2,6 +2,8 @@ package com.spotbook.backend.plugins
 
 import com.spotbook.backend.auth.AuthService
 import com.spotbook.backend.auth.authRoutes
+import com.spotbook.backend.groups.GroupService
+import com.spotbook.backend.groups.groupRoutes
 import com.spotbook.backend.places.PlaceService
 import com.spotbook.backend.places.placeRoutes
 import io.ktor.http.HttpStatusCode
@@ -14,7 +16,8 @@ import kotlinx.serialization.Serializable
 
 fun Application.configureRouting(
     authService: AuthService,
-    placeService: PlaceService
+    placeService: PlaceService,
+    groupService: GroupService
 ) {
     routing {
         get("/") {
@@ -32,6 +35,7 @@ fun Application.configureRouting(
 
         authRoutes(authService)
         placeRoutes(placeService)
+        groupRoutes(groupService)
     }
 }
 

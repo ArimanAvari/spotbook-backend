@@ -70,9 +70,21 @@ Endpoint-ы:
 uploads/place_photos
 ```
 
+## Группы
+
+Для всех запросов групп тоже нужен `Authorization: Bearer <token>`.
+
+Endpoint-ы:
+
+- `GET /api/groups` — список групп текущего пользователя;
+- `POST /api/groups` — создание группы;
+- `DELETE /api/groups/{id}` — удаление группы;
+- `GET /api/groups/{id}/places` — список карточек внутри группы;
+- `POST /api/groups/{groupId}/places/{placeId}` — добавить карточку в группу;
+- `DELETE /api/groups/{groupId}/places/{placeId}` — убрать карточку из группы без удаления карточки.
+
 ## Что будет реализовано дальше
 
-- группы;
 - импорт и экспорт данных.
 
 Разработка ведётся в отдельной ветке `backend-dev`.
