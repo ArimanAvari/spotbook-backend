@@ -1,5 +1,7 @@
 package com.spotbook.backend
 
+import com.spotbook.backend.auth.AuthService
+import com.spotbook.backend.auth.JwtService
 import com.spotbook.backend.plugins.configureDatabase
 import com.spotbook.backend.plugins.configureRouting
 import com.spotbook.backend.plugins.configureSecurity
@@ -18,9 +20,11 @@ fun main() {
 }
 
 fun Application.module() {
-    configureSerialization()
-    configureSecurity()
-    configureDatabase()
-    configureRouting()
-}
+    val jwtService = JwtService()
+    val authService = AuthService(jwtService)
 
+    configureSerialization()
+    configureSecurity(jwtService)
+    configureDatabase()
+    configureRouting(authService)
+}
