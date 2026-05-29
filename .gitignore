@@ -1,6 +1,19 @@
 # Compiled class file
 *.class
 
+# Gradle
+.gradle/
+build/
+out/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Local files
+local.properties
+.env
+
 # Log file
 *.log
 
@@ -25,3 +38,9 @@ replay_pid*
 
 # Kotlin Gradle plugin data, see https://kotlinlang.org/docs/whatsnew20.html#new-directory-for-kotlin-data-in-gradle-projects
 .kotlin/
+
+# Application data
+*.db
+*.sqlite
+*.sqlite3
+uploads/
