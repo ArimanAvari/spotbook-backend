@@ -118,8 +118,8 @@ class SyncService(
         if (place.address.isBlank()) {
             throw SyncException("Place address is required")
         }
-        if (place.rating !in 1..5) {
-            throw SyncException("Rating must be between 1 and 5")
+        if (place.rating !in 1..10) {
+            throw SyncException("Rating must be between 1 and 10")
         }
     }
 
@@ -331,4 +331,3 @@ class SyncService(
 class SyncException(
     override val message: String
 ) : RuntimeException(message)
-

@@ -78,8 +78,8 @@ class PlaceService(
         if (request.address.isBlank()) {
             throw PlaceException(HttpStatusCode.BadRequest, "Address is required")
         }
-        if (request.rating !in 1..5) {
-            throw PlaceException(HttpStatusCode.BadRequest, "Rating must be between 1 and 5")
+        if (request.rating !in 1..10) {
+            throw PlaceException(HttpStatusCode.BadRequest, "Rating must be between 1 and 10")
         }
         if (request.groupId != null && !placeRepository.groupBelongsToUser(userId, request.groupId)) {
             throw PlaceException(HttpStatusCode.BadRequest, "Group was not found")
